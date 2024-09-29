@@ -30,5 +30,6 @@
 
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
+import backArrow from "../assets/icons/back-arrow.png";
 
-export default { eyeHide, eye };
+export default { eyeHide, eye, backArrow };

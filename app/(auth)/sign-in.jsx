@@ -1,8 +1,17 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import FormField from "../../components/FormField";
+import icons from "../../constants/icons";
 // import { getCurrentUser, signIn } from "../../lib/appwrite";
 // import { useGlobalContext } from "../../context/GlobalProvider";
 import SecondaryButton from "../../components/SecondaryButton"; // Updated button
@@ -42,11 +51,21 @@ const SignIn = () => {
       {/* Background color updated */}
       <ScrollView>
         <View
-          className="w-full flex justify-center h-full px-4 my-3"
+          className="w-full flex justify-center h-full px-4 my-0"
           style={{
             minHeight: Dimensions.get("window").height - 100,
           }}
         >
+          <TouchableOpacity
+            onPress={() => router.push("../index")} // Navigating to the index.jsx page
+            className="absolute top-0 left-4 p-1"
+          >
+            <Image
+              source={icons.backArrow} // Ensure this icon exists
+              className="w-10 h-10"
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
           <Text className="text-5xl font-bold text-white mt-5 text-center">
             {/* Font size adjusted */}
             SIGN IN
