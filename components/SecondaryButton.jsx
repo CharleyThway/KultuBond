@@ -11,7 +11,7 @@ const SecondaryButton = ({
     <TouchableOpacity
       onPress={handlePress}
       activeOpacity={0.7}
-      className={`bg-black rounded-full border-2 border-white w-[140px] h-[50px] flex items-center justify-center ${containerStyles}${
+      className={`bg-black rounded-full border-2 w-[140px] h-[50px] flex items-center justify-center ${containerStyles}${
         isLoading ? "opacity-50" : ""
       }`}
       disabled={isLoading}

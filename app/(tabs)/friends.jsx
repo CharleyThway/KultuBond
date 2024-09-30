@@ -1,12 +1,12 @@
 import { SafeAreaView, Text } from 'react-native'
 import React from 'react'
 
-const chat = () => {
+const friends = () => {
   return (
     <SafeAreaView>
-      <Text>chat</Text>
+      <Text>friends</Text>
     </SafeAreaView>
   )
 }
 
-export default chat
+export default friends
