@@ -57,7 +57,7 @@ const SignIn = () => {
           }}
         >
           <TouchableOpacity
-            onPress={() => router.push("../index")} // Navigating to the index.jsx page
+            onPress={() => router.push("/")} // Navigating to the index.jsx page
             className="absolute top-0 left-4 p-1"
           >
             <Image
