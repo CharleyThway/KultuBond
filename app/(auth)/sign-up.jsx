@@ -13,11 +13,12 @@ import {
 import FormField from "../../components/FormField";
 import DropdownList from "../../components/DropDownList";
 import icons from "../../constants/icons";
+import TravelPreferences from "../../components/TravelPreferences";
 // import { getCurrentUser, signIn } from "../../lib/appwrite";
 // import { useGlobalContext } from "../../context/GlobalProvider";
 import SecondaryButton from "../../components/SecondaryButton"; // Updated button
 
-const SignIn = () => {
+const SignUp = () => {
   // const { setUser, setIsLogged } = useGlobalContext();
   // const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -89,7 +90,7 @@ const SignIn = () => {
               value={form.name}
               handleChangeText={(e) => setForm({ ...form, password: e })}
               otherStyles="mt-7 text-black"
-              placeholder="Enter Password"
+              placeholder="Enter Your Name"
             />
 
             <FormField
@@ -125,8 +126,12 @@ const SignIn = () => {
             <View className="flex items-left mt-10">
               <DropdownList />
             </View>
-            
-
+            <View className="mt-8">
+              <Text className="text-lg text-black text-center font-medium">Travel Preferences</Text>
+              <View className= "flex items-left mt-10">
+              <TravelPreferences/>
+              </View>
+            </View>
             <View className="flex items-left mt-10">
               {/* Centered the button */}
               <SecondaryButton
@@ -143,4 +148,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

@@ -16,7 +16,7 @@ const DropdownList = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Select your MBTI:</Text>
+      <Text style={styles.label}>Select your MBTI</Text>
       <TouchableOpacity onPress={() => setPickerVisible(true)} style={styles.picker}>
         <Text style={styles.selected}>{selectedValue}</Text>
       </TouchableOpacity>
@@ -74,13 +74,16 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
+    marginBottom: 10,
+    fontWeight: "500",
+    color: "#000",
   },
   picker: {
     height: 30,
     width: 120,
     borderColor: 'gray',
     backgroundColor: '#D9D9D9',
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
@@ -88,6 +91,8 @@ const styles = StyleSheet.create({
   selected: {
     //marginTop: 20,
     fontSize: 16,
+    fontWeight: 'bold',
+    color: 'gray',
   },
   modalContainer: {
     flex: 1,
