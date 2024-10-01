@@ -8,10 +8,9 @@ import {
     Modal,
     Image,
 } from "react-native";
-import icons from "../constants/icons"; // Ensure you have a tick icon in your constants
+import icons from "../constants/icons";
 
-const DropdownList = () => {
-  const [selectedValue, setSelectedValue] = useState("ENFP");
+const DropdownList = ({ selectedValue, setSelectedValue }) => {
   const [isPickerVisible, setPickerVisible] = useState(false);
 
   return (
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    //paddingTop: 30,
   },
   label: {
     fontSize: 18,
@@ -89,7 +87,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selected: {
-    //marginTop: 20,
     fontSize: 16,
     fontWeight: 'bold',
     color: 'gray',
