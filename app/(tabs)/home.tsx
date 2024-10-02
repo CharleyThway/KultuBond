@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, SafeAreaView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import useCurrentLocation from '../../components/location';
 import MarkerModal from '../MarkerModal';
+import QuizModal from '../QuizModal';
 
 const fetchTourInfo = async (contentId) => {
   const serviceKey = 'a0HzUjdhfiDRG2V%2FjMIlAzgk1QEk6W4zt2B9TAEBe7a1FjXLS90DPxsidoetDbYSeljkTdKvXKSGeYw%2BPawgww%3D%3D';
@@ -41,6 +42,7 @@ const TourInfoWithMap = () => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [quizVisible, setQuizVisible] = useState(false);
 
   useEffect(() => {
     const contentIds = [264337, 561382, 897540, 264354, 264550, 264348, 264134, 264316, 1796840, 1748008, 264352, 2493015, 264465, 2482058, 2490739, 2590278, 264106, 1748004, 789696];
@@ -145,7 +147,16 @@ const TourInfoWithMap = () => {
         firstImage={selectedItem?.firstImage}
         homepage={selectedItem?.homepage} // 추가된 homepage
         onClose={() => setModalVisible(false)}
-        onQuizPress={() => { /* Quiz button action here */ }}
+        onQuizPress={() => {
+          setQuizVisible(true); // 퀴즈 모달 보이기
+          setModalVisible(false); // 다른 모달 닫기
+        }}
+      />
+
+      {/* Quiz Modal 추가 */}
+      <QuizModal
+        visible={quizVisible}
+        onClose={() => setQuizVisible(false)}
       />
     </SafeAreaView>
   );
