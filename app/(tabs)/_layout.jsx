@@ -129,6 +129,21 @@ const TabLayout = () => {
             ),
           }}
         />
+        <Tabs.Screen
+          name="QuizScreen"
+          options={{
+            title: "Profile",
+            headerShown: true,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                IconComponent={icons.profile}
+                color={color}
+                name="Profile"
+                focused={focused}
+              />
+            ),
+          }}
+        />
       </Tabs>
 
       <StatusBar backgroundColor="#161622" style="light" />
