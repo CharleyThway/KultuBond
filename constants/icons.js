@@ -16,6 +16,8 @@ import nature from "../assets/icons/nature.svg";
 import relax from "../assets/icons/relax.svg";
 import religion from "../assets/icons/religion.svg";
 import walk from "../assets/icons/walk.svg";
+import logout from "../assets/icons/logout.svg";
+import edit from "../assets/icons/edit.svg";
 
 export default 
 { 
@@ -36,4 +38,6 @@ export default
     nature,
     relax,
     religion,
-    walk,};
+    walk,
+    logout,
+    edit};

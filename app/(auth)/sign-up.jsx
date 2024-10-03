@@ -13,7 +13,7 @@ import {
 import FormField from "../../components/FormField";
 import DropdownList from "../../components/DropDownList";
 import icons from "../../constants/icons";
-import { createUser } from "../../lib/appwrite";
+import { createUser, loginUser } from "../../lib/appwrite";
 import SecondaryButton from "../../components/SecondaryButton"; // Updated button
 import TravelPreferences from "../../components/TravelPreferences"; // Ensure this is imported
 
@@ -23,7 +23,8 @@ const SignUp = () => {
     password: "",
     username: "",
     name: "",
-    confirmPassword: "",
+    country: "",
+    introduction: "",
     validWYDCode: "",
   });
   const [selectedPreferences, setSelectedPreferences] = useState([]);
@@ -38,6 +39,11 @@ const SignUp = () => {
       return;
     }
 
+    if (form.password.length < 8) {
+      Alert.alert("Error", "Password must be at least 8 characters long.");
+      return;
+    }
+    
     // Proceed with sign-up logic here
     setSubmitting(true);
     try {
@@ -45,12 +51,17 @@ const SignUp = () => {
         form.username,
         form.email,
         form.password,
-        form.name,
+        form.name, // Ensure this is the full name
         form.validWYDCode, // Assuming this is used as `wyd_code`
         selectedValue, // This is for `mbti`
         selectedPreferences.join(','), // Convert array to string for travel preferences
+        form.country, // Pass the country value from form
+        form.introduction 
 
       );
+
+      await loginUser(form.email, form.password);
+
       setIsLogged(true);
 
       router.replace("/home");
@@ -117,12 +128,27 @@ const SignUp = () => {
               placeholder="Enter Password"
             />
             <FormField
-              title="Confirm Password"
-              value={form.confirmPassword}
-              handleChangeText={(e) => setForm({ ...form, confirmPassword: e })}
+              title="Country of Origin"
+              value={form.country}
+              handleChangeText={(e) => setForm({ ...form, country: e })}
               otherStyles="mt-7 text-black"
-              placeholder="Re-enter Password"
+              placeholder="Your country"
             />
+           <FormField
+            title="Introduction"
+            value={form.introduction} // Correct form field 'introduction'
+            handleChangeText={(e) => {
+              if (e.length <= 500) { // Check for 500 character limit
+                setForm({ ...form, introduction: e }); // Update introduction in form state
+              } else {
+                Alert.alert("Character Limit Exceeded", "Please limit your introduction to 500 characters.");
+              }
+            }}
+            otherStyles="mt-7 text-black"
+            placeholder="Write a short introduction (500 characters max)"
+            multiline={true} // Allow multiline input
+          />
+
             <FormField
               title="Valid WYD Code"
               value={form.validWYDCode}

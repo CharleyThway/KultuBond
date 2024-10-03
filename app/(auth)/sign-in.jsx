@@ -12,40 +12,44 @@ import {
 } from "react-native";
 import FormField from "../../components/FormField";
 import icons from "../../constants/icons";
-// import { getCurrentUser, signIn } from "../../lib/appwrite";
-// import { useGlobalContext } from "../../context/GlobalProvider";
+import { getCurrentUser, loginUser} from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/GlobalProvider";
 import SecondaryButton from "../../components/SecondaryButton"; // Updated button
 
 const SignIn = () => {
   const router = useRouter();
-  // const { setUser, setIsLogged } = useGlobalContext();
-  // const [isSubmitting, setSubmitting] = useState(false);
+  const { setUser, setIsLogged } = useGlobalContext();
+  const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
-  // const submit = async () => {
-  //   if (form.email === "" || form.password === "") {
-  //     Alert.alert("Error", "Please fill in all fields");
-  //   }
+  const submit = async () => {
+    if (form.email === "" || form.password === "") {
+      Alert.alert("Error", "Please fill in all fields");
+    }
 
-  //   setSubmitting(true);
+    setSubmitting(true);
 
-  //   try {
-  //     await signIn(form.email, form.password);
-  //     const result = await getCurrentUser();
-  //     setUser(result);
-  //     setIsLogged(true);
-
-  //     Alert.alert("Success", "User signed in successfully");
-  //     router.replace("/home");
-  //   } catch (error) {
-  //     Alert.alert("Error", error.message);
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
+    try {
+      const loginResponse = await loginUser(form.email, form.password);
+      console.log('Login Response:', loginResponse); // Log the login response
+    
+      const result = await getCurrentUser();
+      console.log('Current User:', result); // Log the user info
+    
+      setUser(result);
+      setIsLogged(true);
+      Alert.alert("Success", "User signed in successfully");
+      router.replace("/home");
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+     finally {
+      setSubmitting(false);
+    }
+  };
 
   const screenHeight = Dimensions.get("window").height;
 
@@ -76,11 +80,11 @@ const SignIn = () => {
           </Text>
           <View className="mt-10 bg-gray-200 p-6 rounded-2xl">
             <FormField
-              title="Username"
-              value={form.username}
+              title="Email"
+              value={form.email}
               handleChangeText={(e) => setForm({ ...form, email: e })}
               otherStyles="mt-7 text-black"
-              placeholder="Enter Username"
+              placeholder="Enter email"
               keyboardType="default"
             />
 
@@ -96,9 +100,9 @@ const SignIn = () => {
               {/* Centered the button */}
               <SecondaryButton
                 title="Sign In"
-                handlePress={() => router.push("/home")}
+                handlePress={submit}
                 containerStyles=""
-                // isLoading={isSubmitting}
+                isLoading={isSubmitting}
               />
             </View>
           </View>
