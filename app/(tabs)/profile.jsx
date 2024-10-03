@@ -9,7 +9,7 @@ const profile = () => {
   return (
     <ScrollView className="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[480px]">
       <View className="flex flex-col px-8 mt-5 w-full">
-        <ProfileInfo userProfile={user} />
+        <ProfileInfo/>
       </View>
     </ScrollView>
   );
