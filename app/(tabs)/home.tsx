@@ -129,6 +129,7 @@ const TourInfoWithMap = () => {
                   overview: markerOverview,
                   firstImage: item.firstImage,
                   homepage: homepage,
+                  apicontentId: item.contentid, // contentId를 apicontentId로 설정
                 });
                 setModalVisible(true);
               }}
@@ -161,6 +162,7 @@ const TourInfoWithMap = () => {
       <QuizModal
         visible={quizVisible}
         onClose={() => setQuizVisible(false)}
+        apicontentId={selectedItem?.apicontentId} // QuizModal에 apicontentId 전달
       />
     </SafeAreaView>
   );

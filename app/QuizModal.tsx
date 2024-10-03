@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button, Modal, StyleSheet, ActivityIndicator } from 'react-native';
 import { Client, Databases } from 'appwrite'; // Appwrite SDK
 
-const QuizModal = ({ visible, onClose }) => {
-  const [quizData, setQuizData] = useState(null);
+const QuizModal = ({ visible, onClose, apicontentId }) => { // apicontentId를 props로 받음
+  const [quizData, setQuizData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,17 +19,24 @@ const QuizModal = ({ visible, onClose }) => {
           const databases = new Databases(client);
           // Appwrite 데이터베이스에서 퀴즈 데이터 가져오기
           const response = await databases.listDocuments('66fab2bc000944d087a5', '66fbe65b000af4eebfb7');
-          setQuizData(response.documents); // 가져온 퀴즈 데이터를 상태로 저장
+
+          console.log('Fetched quiz data:', response); // 응답 데이터 로그 출력
+
+          // contentId가 apicontentId와 일치하는 데이터 필터링
+          const filteredQuizData = response.documents.filter(quiz => quiz.contentId === apicontentId);
+          console.log('Filtered quiz data:', filteredQuizData); // 필터링된 데이터 로그 출력
+
+          setQuizData(filteredQuizData);
           setLoading(false);
         } catch (error) {
-          console.error('Error fetching quiz data:', error.message); // 문자열로 에러 메시지 출력
+          console.error('Error fetching quiz data:', error.message);
           setLoading(false);
         }
       };
 
       fetchQuizData(); // 모달이 열릴 때 데이터를 가져옴
     }
-  }, [visible]);
+  }, [visible, apicontentId]); // apicontentId를 의존성 배열에 추가하여 변경 시 새로 고침
 
   return (
     <Modal
@@ -42,12 +49,11 @@ const QuizModal = ({ visible, onClose }) => {
         <View style={styles.modalContent}>
           {loading ? (
             <ActivityIndicator size="large" color="#0000ff" />
-          ) : quizData ? (
+          ) : quizData.length > 0 ? ( // quizData가 비어있지 않은지 확인
             <>
               <Text style={styles.title}>Quiz</Text>
               {quizData.map((quiz, index) => (
                 <View key={index} style={styles.quizItem}>
-                  {/* quiz.question이 존재하는지 확인 */}
                   <Text>{quiz.question ? quiz.question : 'No question available'}</Text>
                 </View>
               ))}
