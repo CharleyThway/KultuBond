@@ -120,14 +120,13 @@ const FindFriend = () => {
         <StyledView className="flex-1 justify-center items-center bg-gray-800 bg-opacity-75">
           {/* Updated modal design */}
           <StyledView className="bg-white p-6 rounded-lg w-4/5">
-            {" "}
             {/* Increased width */}
             {/* Close icon at the top right */}
             <TouchableOpacity
               className="absolute top-3 right-3"
               onPress={() => setModalVisible(false)}
             >
-              <StyledText className="text-xl text-gray-600">✖</StyledText>{" "}
+              <StyledText className="text-xl text-gray-600">✖</StyledText>
               {/* Make sure this is wrapped in StyledText */}
             </TouchableOpacity>
             {/* Avatar at the top */}
@@ -155,10 +154,8 @@ const FindFriend = () => {
 
                 {/* Safely handle travel_preferences */}
                 <StyledText className="mt-2">
-                  Travel Preferences:{" "}
-                  {Array.isArray(selectedUser.travel_preferences)
-                    ? selectedUser.travel_preferences.join(", ")
-                    : "No preferences listed"}
+                  Travel Preferences:
+                  {selectedUser.travel_preferences}
                 </StyledText>
               </>
             )}
