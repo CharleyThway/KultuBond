@@ -5,6 +5,7 @@ import useCurrentLocation from '../../components/location';
 import MarkerModal from '../MarkerModal';
 import QuizModal from '../QuizModal';
 
+// 공공데이터 API 호출 함수
 const fetchTourInfo = async (contentId) => {
   const serviceKey = 'a0HzUjdhfiDRG2V%2FjMIlAzgk1QEk6W4zt2B9TAEBe7a1FjXLS90DPxsidoetDbYSeljkTdKvXKSGeYw%2BPawgww%3D%3D';
   const url = `http://apis.data.go.kr/B551011/EngService1/detailCommon1?MobileOS=AND&MobileApp=AppTest&serviceKey=${serviceKey}&contentId=${contentId}&firstImageYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json&defaultYN=Y`;
@@ -45,11 +46,14 @@ const TourInfoWithMap = () => {
   const [quizVisible, setQuizVisible] = useState(false);
 
   useEffect(() => {
+    // 필터링할 contentId 배열 (appwrite에서 가져온 것과 공공데이터 contentId 비교)
     const contentIds = [264337, 561382, 897540, 264354, 264550, 264348, 264134, 264316, 1796840, 1748008, 264352, 2493015, 264465, 2482058, 2490739, 2590278, 264106, 1748004, 789696];
 
     const fetchData = async () => {
       try {
+        // 공공데이터 contentId 기반으로 API 호출
         const results = await Promise.all(contentIds.map(id => fetchTourInfo(id)));
+        // 성공적으로 데이터를 받아온 항목들만 필터링
         setTourData(results.filter(Boolean));
         setLoading(false);
       } catch (error) {
@@ -119,7 +123,7 @@ const TourInfoWithMap = () => {
               }}
               title={markerTitle}
               onPress={() => {
-                // selectedItem을 수정된 형태로 설정
+                // 선택한 마커의 정보 설정
                 setSelectedItem({
                   title: markerTitle,
                   overview: markerOverview,
