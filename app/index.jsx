@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
+
 // import Loader from "../components";
 //import { useGlobalContext } from "../context/GlobalProvider"; // Assuming you have a global context setup
 
@@ -68,8 +69,13 @@ const Welcome = () => {
             <SecondaryButton
               title="Sign in"
               handlePress={() => router.push("/sign-in")}
+              containerStyles={`w-[140px]`}
             />
           </View>
+          <SecondaryButton
+            title="friends"
+            handlePress={() => router.push("/friends")}
+          />
         </View>
       </ScrollView>
       <StatusBar backgroundColor="transparent" style="light" />

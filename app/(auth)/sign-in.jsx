@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -17,6 +17,7 @@ import icons from "../../constants/icons";
 import SecondaryButton from "../../components/SecondaryButton"; // Updated button
 
 const SignIn = () => {
+  const router = useRouter();
   // const { setUser, setIsLogged } = useGlobalContext();
   // const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -46,6 +47,8 @@ const SignIn = () => {
   //   }
   // };
 
+  const screenHeight = Dimensions.get("window").height;
+
   return (
     <SafeAreaView className="bg-[#12122C] h-full">
       {/* Background color updated */}
@@ -54,6 +57,7 @@ const SignIn = () => {
           className="w-full flex justify-center h-full px-4 my-0"
           style={{
             minHeight: Dimensions.get("window").height - 100,
+            //paddingTop: screenHeight * 0.2 ,
           }}
         >
           <TouchableOpacity
@@ -62,7 +66,7 @@ const SignIn = () => {
           >
             <Image
               source={icons.backArrow} // Ensure this icon exists
-              className="w-10 h-10"
+              className="w-10 h-10 pt-20"
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -73,7 +77,7 @@ const SignIn = () => {
           <View className="mt-10 bg-gray-200 p-6 rounded-2xl">
             <FormField
               title="Username"
-              value={form.email}
+              value={form.username}
               handleChangeText={(e) => setForm({ ...form, email: e })}
               otherStyles="mt-7 text-black"
               placeholder="Enter Username"
@@ -92,7 +96,7 @@ const SignIn = () => {
               {/* Centered the button */}
               <SecondaryButton
                 title="Sign In"
-                // handlePress={submit}
+                handlePress={() => router.push("/home")}
                 containerStyles=""
                 // isLoading={isSubmitting}
               />
