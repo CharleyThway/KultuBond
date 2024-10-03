@@ -105,6 +105,26 @@ const TourInfoWithMap = () => {
           />
         </Marker>
 
+        <Marker
+          coordinate={{
+            latitude: 35.236003,
+            longitude: 129.082499,
+          }}
+          pinColor="#2D63E2"
+          title="하이"
+          description="테스트"
+          onPress={() => {
+            setSelectedItem({
+            title: null,
+            overview: null,
+            firstImage: null, // 이미지가 없으면 null로 설정
+            homepage: null, // 홈페이지가 없으면 null로 설정
+            apicontentId: "test", // contentId를 test로 설정
+            });
+            setModalVisible(true);
+          }}
+        />
+
         {tourData.map((item, index) => {
           if (!item || !item.mapy || !item.mapx) {
             return null;

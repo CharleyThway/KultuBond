@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
-import * as Location from 'expo-location'; //expo install expo-location
+import * as Location from 'expo-location'; // expo install expo-location
 
 interface LocationType {
   latitude: number;
@@ -36,6 +36,12 @@ const useCurrentLocation = (): LocationType | null => {
 
   useEffect(() => {
     getLocation(); // 컴포넌트 마운트 시 호출
+
+    const interval = setInterval(() => {
+      getLocation(); // 주기적으로 위치 업데이트
+    }, 10000); // 10초마다 위치 업데이트
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 클리어
   }, []);
 
   return location;
