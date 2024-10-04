@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import GlobalProvider from "../context/GlobalProvider";
@@ -34,8 +33,23 @@ const RootLayout = () => {
   return (
     <GlobalProvider>
       <Stack>
+        {/* Tabs for your main app screens */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+        {/* Auth screens */}
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+
+        {/* Stack Screens for team registration and my team */}
+        <Stack.Screen
+          name="team-register"
+          options={{ title: "Register Your Team", headerShown: true }}
+        />
+        <Stack.Screen
+          name="my-team"
+          options={{ title: "My Team", headerShown: true }}
+        />
+
+        {/* Default index screen */}
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
     </GlobalProvider>

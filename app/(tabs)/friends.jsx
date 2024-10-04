@@ -13,7 +13,8 @@ import { Avatar } from "../../components/Avatar";
 import { MessageIcon } from "../../components/MessageIcon";
 import { styled } from "nativewind";
 import SecondaryButton from "../../components/SecondaryButton";
-import { useGlobalContext } from "../../context/GlobalProvider"; // Import Global Context
+import { useGlobalContext } from "../../context/GlobalProvider";
+import { getTeamDetails } from "../../lib/teamService"; // Import team service
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -27,7 +28,7 @@ const FindFriend = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isCreatingTeam, setIsCreatingTeam] = useState(false); // State to toggle form visibility
+  const [hasTeam, setHasTeam] = useState(false); // State to track if the user has a team
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,7 +40,20 @@ const FindFriend = () => {
       setAllUsers(filteredData);
       setFilteredUsers(filteredData);
     };
+
+    const checkTeamStatus = async () => {
+      try {
+        const team = await getTeamDetails(user.$id);
+        if (team) {
+          setHasTeam(true); // User has a team
+        }
+      } catch (error) {
+        console.error("Error fetching team details:", error);
+      }
+    };
+
     fetchUserData();
+    checkTeamStatus(); // Check if the user has a team
   }, [user]); // Re-run if user changes
 
   const handleSearch = () => {
@@ -97,16 +111,20 @@ const FindFriend = () => {
       </StyledView>
 
       <StyledView className="flex items-center">
-        <SecondaryButton
-          title="Register Your Team"
-          containerStyles="my-2"
-          handlePress={() => navigation.navigate("team-register")} // Navigate to team registration
-        />
+        {hasTeam ? (
+          <SecondaryButton
+            title="My Team"
+            containerStyles="my-2"
+            handlePress={() => navigation.navigate("my-team")} // Navigate to My Team page
+          />
+        ) : (
+          <SecondaryButton
+            title="Register Your Team"
+            containerStyles="my-2"
+            handlePress={() => navigation.navigate("team-register")} // Navigate to team registration
+          />
+        )}
       </StyledView>
-
-      {isCreatingTeam && (
-        <CreateTeam onTeamCreated={() => setIsCreatingTeam(false)} />
-      )}
 
       <FlatList
         data={filteredUsers}

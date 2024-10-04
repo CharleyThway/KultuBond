@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, Button } from "react-native";
-import { createTeam } from "../../lib/teamService";
-import { useGlobalContext } from "../../context/GlobalProvider";
+import { useNavigation } from "@react-navigation/native"; // Import navigation hook
 import { Picker } from "@react-native-picker/picker";
-import { useNavigation } from "@react-navigation/native"; // Use navigation to go to My Team
+import { createTeam } from "../lib/teamService";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 const TeamRegister = () => {
   const { user } = useGlobalContext();
-  const navigation = useNavigation(); // Initialize navigation
   const [teamName, setTeamName] = useState("");
   const [numMembers, setNumMembers] = useState(1); // Default to 1 member
   const [memberEmails, setMemberEmails] = useState([""]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation(); // Use navigation
 
   const handleMemberCountChange = (value) => {
     setNumMembers(value);
-
-    // Adjust the memberEmails array to match the number of members
     const newEmails = [...memberEmails];
     if (value > memberEmails.length) {
       for (let i = memberEmails.length; i < value; i++) {
@@ -38,11 +36,10 @@ const TeamRegister = () => {
   const handleSubmit = async () => {
     setLoading(true);
     setError("");
-
     try {
       await createTeam(teamName, user.$id, memberEmails);
       alert("Team registered successfully!");
-      navigation.navigate("MyTeam"); // Redirect to My Team page
+      navigation.navigate("my-team"); // Navigate to My Team page after registration
     } catch (error) {
       setError(error.message);
     } finally {
@@ -63,7 +60,6 @@ const TeamRegister = () => {
         style={{ borderBottomWidth: 1, marginBottom: 10 }}
       />
 
-      {/* Replace number input with Picker */}
       <Text>Number of Members</Text>
       <Picker
         selectedValue={numMembers}
@@ -74,7 +70,6 @@ const TeamRegister = () => {
         <Picker.Item label="2" value={2} />
         <Picker.Item label="3" value={3} />
         <Picker.Item label="4" value={4} />
-        <Picker.Item label="5" value={5} />
       </Picker>
 
       {Array.from({ length: numMembers }).map((_, index) => (
