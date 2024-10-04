@@ -71,6 +71,7 @@ const TabLayout = () => {
             backgroundColor: "#14122D",
           },
           headerTitleContainerStyle:{
+            flexDirection: 'row',
             paddingBottom: 20,
           },
           headerTitleStyle: {
