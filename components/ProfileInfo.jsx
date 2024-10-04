@@ -116,7 +116,7 @@ const ProfileInfo = () => {
             <icons.edit width={16} height={16} fill="#FFFFFF" />
           </TouchableOpacity>
         </View>
-        <View style={{ marginLeft: 16, flex: 1 }}>
+        <View style={{ marginLeft: 50, flex: 1 }}>
           <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{userProfile?.username || "No username"}</Text>
           <Text style={{ color: '#4B5563' }}>{userProfile?.full_name || "No full name provided"}</Text>
           <TouchableOpacity
@@ -173,7 +173,7 @@ const ProfileInfo = () => {
 
       <Modal visible={showModal} transparent={true} animationType="slide">
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-          <View style={{ backgroundColor: 'white', padding: 24, borderRadius: 8, width: '83.333333%' }}>
+          <View style={{ backgroundColor: 'white', padding: 30, borderRadius: 8, width: '83.333333%' }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>Edit Profile</Text>
             <FormField
               title="Username"

@@ -18,6 +18,7 @@ import religion from "../assets/icons/religion.svg";
 import walking from "../assets/icons/walk.svg";
 import logout from "../assets/icons/logout.svg";
 import edit from "../assets/icons/edit.svg";
+import search from "../assets/icons/search.svg";
 
 export default 
 { 
@@ -40,4 +41,5 @@ export default
     religion,
     walking,
     logout,
-    edit};
+    edit,
+    search};
