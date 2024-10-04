@@ -55,11 +55,17 @@ const ProfileInfo = () => {
 
   const handleSaveInfo = async () => {
     try {
-      const updatedPreferences = formValues.travel_preferences.join(",");
+      const updatedPreferences = selectedPreferences.join(","); // Convert array to string
+       setFormValues((prevValues) => ({
+      ...prevValues,
+      travel_preferences: updatedPreferences,
+      }));
+      
       await updateUserProfile(userProfile.accountId, {
         ...formValues,
-        travel_preferences: updatedPreferences,
+        travel_preferences: updatedPreferences, // Use updated preferences
       });
+
       setShowModal(false);
       const updatedProfile = await getUserProfile(userProfile.accountId);
       setUserProfile(updatedProfile);
@@ -134,22 +140,30 @@ const ProfileInfo = () => {
         <Text style={{ color: '#374151' }}>{userProfile.introduction || "No introduction provided"}</Text>
       </View>
 
-      <View style={{ marginBottom: 24 }}>
-        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>Travel Preferences</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+      <View style={{ flexDirection: 'col', flexWrap: 'wrap', justifyContent: 'center'}}>
+        <Text className="text-lg font-bold">Travel Preferences</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
           {selectedPreferences.length > 0 ? (
             selectedPreferences.map((pref, index) => {
-              if (!['cultural', 'historical', 'walking'].includes(pref.toLowerCase())) return null;
-              const icon = icons[pref.toLowerCase()];
+              const lowercasePref = pref.toLowerCase();
+              const icon = icons[lowercasePref];
+
+              if (!icon) {
+                console.warn(`Icon for ${lowercasePref} not found`);
+                return null; // If no icon is found, skip rendering
+              }
               return (
-                <PreferenceIcon key={index} name={pref} Icon={icon} />
+                <View style={{ margin: 8}}>
+                  <PreferenceIcon key={index} name={pref} Icon={icon} />
+                </View>
               );
-            })
-          ) : (
-            <Text style={{ color: '#6B7280' }}>No travel preferences selected</Text>
-          )}
-        </View>
+          })
+      ) : (
+        <Text style={{ color: '#6B7280' }}>No travel preferences selected</Text>
+      )}
       </View>
+    </View>
+
 
       <View>
         <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>Additional Info</Text>
@@ -189,15 +203,12 @@ const ProfileInfo = () => {
               multiline={true}
             />
             <Text style={{ fontWeight: 'bold', marginBottom: 8 }}>Travel Preferences:</Text>
-            <TravelPreferences
-              selectedPreferences={formValues.travel_preferences}
-              setSelectedPreferences={(prefs) => setFormValues({ ...formValues, travel_preferences: prefs })}
-            />
+            <TravelPreferences selectedPreferences={selectedPreferences} setSelectedPreferences={setSelectedPreferences} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 24 }}>
-              <TouchableOpacity onPress={() => setShowModal(false)} style={{ backgroundColor: '#D1D5DB', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 4 }}>
+              <TouchableOpacity onPress={() => setShowModal(false)} style={{ backgroundColor: 'grey', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 4 }}>
                 <Text>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleSaveInfo} style={{ backgroundColor: '#3B82F6', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 4 }}>
+              <TouchableOpacity onPress={handleSaveInfo} style={{ backgroundColor: 'grey', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 4 }}>
                 <Text style={{ color: 'white' }}>Save</Text>
               </TouchableOpacity>
             </View>
