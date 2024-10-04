@@ -26,6 +26,7 @@ const ProfileInfo = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       if (currentUser) {
+        console.log("Current user:", currentUser);
         try {
           const profile = await getUserProfile(currentUser.$id);
           if (profile) {
@@ -153,7 +154,7 @@ const ProfileInfo = () => {
                 return null; // If no icon is found, skip rendering
               }
               return (
-                <View style={{ margin: 8}}>
+                <View style={{ margin: 8}} key={index}>
                   <PreferenceIcon key={index} name={pref} Icon={icon} />
                 </View>
               );
