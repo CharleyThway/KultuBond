@@ -1,7 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import { Redirect, Tabs } from "expo-router";
-import { Text, View } from "react-native";
+import { router, Tabs } from "expo-router";
+import { Text, View, Alert } from "react-native";
 import icons from "../../constants/icons";
+import { TouchableOpacity } from "react-native";
+import { logoutUser } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/GlobalProvider";
 //import IrishGrover from "../../assets/fonts/IrishGrover-Regular.ttf";
 
 const TabIcon = ({ IconComponent, color, name, focused }) => {
@@ -27,7 +30,29 @@ const TabIcon = ({ IconComponent, color, name, focused }) => {
   );
 };
 
+const logout = async (setUser, setIsLogged) => {
+  await logoutUser();
+  setUser(null);
+  setIsLogged(false);
+
+  router.replace("/");
+};
+
 const TabLayout = () => {
+  const { user, setUser, setIsLogged } = useGlobalContext();
+  const handleLogout = () => {
+    // Implement your logout functionality here
+    Alert.alert("Logout", "Are you sure you want to log out?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Log Out",
+        onPress: () => logout(setUser, setIsLogged),
+      },
+    ]);
+  };
   return (
     <>
       <Tabs
@@ -46,16 +71,18 @@ const TabLayout = () => {
             backgroundColor: "#14122D",
           },
           headerTitleContainerStyle:{
-          flex: 10, // Use flex: 1 to take the full width
-          alignItems: 'center', // Center horizontally
-          justifyContent: 'center', // Center vertically
-          paddingTop: 10,
-          paddingBottom: 10,
+            flexDirection: 'row',
+            paddingBottom: 20,
           },
           headerTitleStyle: {
             color: "#FFFFFF",
             fontSize: 26,
-          }
+          },
+          headerLeft: () => (
+            <TouchableOpacity style={{ marginLeft: 10 }} onPress={handleLogout}>
+              <icons.logout width={24} height={24} stroke="#FFFFFF"/>
+            </TouchableOpacity>
+          )
         }}
       >
         <Tabs.Screen
