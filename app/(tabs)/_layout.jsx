@@ -46,7 +46,11 @@ const TabLayout = () => {
             backgroundColor: "#14122D",
           },
           headerTitleContainerStyle:{
-            paddingBottom: 20,
+          flex: 10, // Use flex: 1 to take the full width
+          alignItems: 'center', // Center horizontally
+          justifyContent: 'center', // Center vertically
+          paddingTop: 10,
+          paddingBottom: 10,
           },
           headerTitleStyle: {
             color: "#FFFFFF",

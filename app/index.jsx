@@ -6,17 +6,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-// import Loader from "../components";
-//import { useGlobalContext } from "../context/GlobalProvider"; // Assuming you have a global context setup
+import Loader from "../components/Loader";
+import { useGlobalContext } from "../context/GlobalProvider"; // Assuming you have a global context setup
 
 const Welcome = () => {
-  // const { loading, isLogged } = useGlobalContext();
+  const { loading, isLogged } = useGlobalContext();
 
-  // if (!loading && isLogged) return <Redirect href="/home" />;
+  if (!loading && isLogged) return <Redirect href="/home" />;
 
   return (
     <SafeAreaView className="bg-primary h-full">
       {/* Background Image */}
+      <Loader isLoading={loading} />
       <ScrollView
         contentContainerStyle={{
           height: "100%",
@@ -61,13 +62,14 @@ const Welcome = () => {
             <PrimaryButton
               title="Join us"
               handlePress={() => router.push("/sign-up")}
-              containerStyles="mr-4"
+              containerStyles="w-[140px] mr-4"
             />
 
             {/* Sign-in button */}
             <SecondaryButton
               title="Sign in"
               handlePress={() => router.push("/sign-in")}
+              containerStyles="w-[140px] mr-4"
             />
           </View>
         </View>
