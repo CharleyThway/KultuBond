@@ -27,6 +27,7 @@ const FindFriend = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isCreatingTeam, setIsCreatingTeam] = useState(false); // State to toggle form visibility
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -96,8 +97,16 @@ const FindFriend = () => {
       </StyledView>
 
       <StyledView className="flex items-center">
-        <SecondaryButton title="Register Your Team" containerStyles="my-2" />
+        <SecondaryButton
+          title="Register Your Team"
+          containerStyles="my-2"
+          handlePress={() => navigation.navigate("team-register")} // Navigate to team registration
+        />
       </StyledView>
+
+      {isCreatingTeam && (
+        <CreateTeam onTeamCreated={() => setIsCreatingTeam(false)} />
+      )}
 
       <FlatList
         data={filteredUsers}
