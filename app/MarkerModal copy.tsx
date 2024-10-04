@@ -1,5 +1,4 @@
-/*
-  import React from 'react';
+import React from 'react';
 import { Modal, View, Text, Image, ScrollView, Button, TouchableOpacity, Linking, StyleSheet } from 'react-native';
 
 interface MarkerModalProps {
@@ -14,47 +13,11 @@ interface MarkerModalProps {
   markerLocation: { latitude: number; longitude: number };
 }
 
-const MarkerModal: React.FC<MarkerModalProps> = ({ visible, title, overview, firstImage, homepage, onClose, onQuizPress, userLocation, markerLocation }) => {
-  // 두 좌표 사이의 거리 계산 함수
-  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-    const toRad = (value: number) => (value * Math.PI) / 180;
-    const R = 6371; // 지구 반지름 (km)
-
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1); // 경도 차이 수정
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c; // km로 반환
-  };
-
-  // 사용자 위치와 마커 위치의 거리 계산
-  const distanceToMarker = calculateDistance(userLocation.latitude, userLocation.longitude, markerLocation.latitude, markerLocation.longitude);
-
-  const handleLocationVerification = () => { 
-    if (distanceToMarker <= 1.0) { // 1km 이내일 때
-    //setScore(prevScore => prevScore + 1);}; // 점수 증가
-    alert ('Location verification is complete. You have earned 1 point.')}
-    else { alert('You must be near the marker to earn points.')}
-  };
-  
-
-  
+const MarkerModal: React.FC<MarkerModalProps> = ({ visible, title, overview, firstImage, homepage, onClose, onQuizPress}) => {
 
   // 퀴즈 시작 버튼을 눌렀을 때 실행될 함수
   const handleQuizPress = () => {
-    console.log('Distance to marker:', distanceToMarker);
-    console.log('userinfo:', userLocation.latitude, userLocation.longitude);
-    console.log('markerinfo:', markerLocation.latitude, markerLocation.longitude);
-
-    if (distanceToMarker <= 1.0) { // 1km 이내일 때 퀴즈 시작
       onQuizPress();
-    } else {
-      alert('You must be near the marker to answer the quiz.');
-    }
   };
 
   const splitTitle = title ? title.split(' (') : ["Unknown Title", "Unknown Korean Title"];
@@ -65,7 +28,9 @@ const MarkerModal: React.FC<MarkerModalProps> = ({ visible, title, overview, fir
     <Modal visible={visible} transparent={false} animationType="slide">
 
       <View style={styles.container}>
+        {/* 영어 제목 */}
         <Text style={styles.title}>{englishTitle}</Text>
+        {/* 한국어 제목 (괄호 제거) */}
         <Text style={styles.title}>{koreanTitle}</Text>
 
         {firstImage ? (
@@ -85,7 +50,7 @@ const MarkerModal: React.FC<MarkerModalProps> = ({ visible, title, overview, fir
         )}
 
       <View style={{ flexDirection: 'column' }}>
-        <TouchableOpacity style={styles.button} onPress={handleLocationVerification}>
+        <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText} >Location Verification</Text>
         </TouchableOpacity>
       </View>
@@ -159,4 +124,3 @@ const styles = StyleSheet.create({
 });
 
 export default MarkerModal;
-*/

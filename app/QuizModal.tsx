@@ -92,9 +92,14 @@ const QuizModal = ({ visible, onClose, apicontentId }) => {
                       backgroundColor: quiz.selectedOption === option ? '#14122D' : '#B7C9E6',
                       padding: 10,
                       borderRadius: 5,
+                      minHeight: 50, // 버튼의 최소 높이 설정
+                      justifyContent: 'center', // 텍스트 중앙 정렬
                     }}
                   >
-                    <Text style={{ color: '#FFFFFF', textAlign: 'center' }}>
+                    <Text style={{ 
+                      color: quiz.selectedOption === option ? 'white' : 'black', // 텍스트 색상 설정
+                      textAlign: 'center' 
+                    }}>
                       {option}
                     </Text>
                   </TouchableOpacity>
@@ -112,7 +117,7 @@ const QuizModal = ({ visible, onClose, apicontentId }) => {
                     />
                   
 
-                  <Text>{quiz.ps ? quiz.ps : null}</Text>
+                  <Text style={{ marginTop: 10 }}>{quiz.ps ? quiz.ps : null}</Text>
                 </View>
               ))}
               <TouchableOpacity style={styles.button} onPress={onClose}>
@@ -156,7 +161,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7
   },
   buttonText: {
-    color: '#14122D',
+    color: 'white',
     fontSize: 14, // 원하는 글자 크기로 변경
     textAlign: 'center',
   },

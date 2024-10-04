@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Image, SafeAreaView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import useCurrentLocation from '../../components/location';
-import MarkerModal from '../MarkerModal';
+import MarkerModal from '../MarkerModal copy';
 import QuizModal from '../QuizModal';
 
 
