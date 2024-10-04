@@ -7,7 +7,17 @@ import ranking from "../assets/icons/ranking.svg";
 import profile from "../assets/icons/profile.svg";
 import friends from "../assets/icons/friends.svg";
 import chat from "../assets/icons/chat.svg";
-import send from "../assets/icons/send.png";
+import culture from "../assets/icons/culture.svg";
+import food from "../assets/icons/food.svg";
+import history from "../assets/icons/history.svg";
+import modern from "../assets/icons/modern.svg";
+import museum from "../assets/icons/museum.svg";
+import nature from "../assets/icons/nature.svg";
+import relax from "../assets/icons/relax.svg";
+import religion from "../assets/icons/religion.svg";
+import walk from "../assets/icons/walk.svg";
+import logout from "../assets/icons/logout.svg";
+import edit from "../assets/icons/edit.svg";
 
 export default {
   eyeHide,
@@ -19,5 +29,15 @@ export default {
   profile,
   friends,
   chat,
-  send,
+  culture,
+  food,
+  history,
+  modern,
+  museum,
+  nature,
+  relax,
+  religion,
+  walk,
+  logout,
+  edit,
 };

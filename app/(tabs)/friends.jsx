@@ -7,42 +7,44 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import { Redirect, router } from "expo-router";
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation for navigation
-import { fetchUsers } from "../../lib/appwrite"; // Import the function from appwrite.js
-import { Avatar } from "../../components/Avatar"; // Custom avatar component
-import { MessageIcon } from "../../components/MessageIcon"; // Custom message icon component
+import { useNavigation } from "@react-navigation/native";
+import { fetchUsers } from "../../lib/findFriends";
+import { Avatar } from "../../components/Avatar";
+import { MessageIcon } from "../../components/MessageIcon";
 import { styled } from "nativewind";
-import SecondaryButton from "../../components/SecondaryButton"; // Import SecondaryButton
+import SecondaryButton from "../../components/SecondaryButton";
+import { useGlobalContext } from "../../context/GlobalProvider"; // Import Global Context
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
 const StyledTextInput = styled(TextInput);
 
 const FindFriend = () => {
-  const navigation = useNavigation(); // Get navigation object
-  const [allUsers, setAllUsers] = useState([]); // Store all users
-  const [filteredUsers, setFilteredUsers] = useState([]); // Store filtered users
+  const navigation = useNavigation();
+  const { user } = useGlobalContext(); // Get the logged-in user from the context
+  const [allUsers, setAllUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Fetch all users when the page loads
   useEffect(() => {
     const fetchUserData = async () => {
       const usersData = await fetchUsers();
-      setAllUsers(usersData);
-      setFilteredUsers(usersData); // Show all users initially
+
+      // Filter out the current logged-in user
+      const filteredData = usersData.filter((u) => u.accountId !== user.$id);
+
+      setAllUsers(filteredData);
+      setFilteredUsers(filteredData);
     };
     fetchUserData();
-  }, []);
+  }, [user]); // Re-run if user changes
 
   const handleSearch = () => {
     if (searchTerm === "") {
-      // Show all users if search term is empty
       setFilteredUsers(allUsers);
     } else {
-      // Filter users based on search term (case-insensitive)
       const filtered = allUsers.filter(
         (user) =>
           user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -59,23 +61,17 @@ const FindFriend = () => {
 
   const renderItem = ({ item }) => (
     <StyledView className="flex-row items-center mb-4">
-      {/* Avatar */}
       <TouchableOpacity onPress={() => handleAvatarClick(item)}>
         <Avatar url={item.avatar} />
       </TouchableOpacity>
 
-      {/* User Details */}
       <StyledView className="ml-4">
-        {/* Full Name */}
         <StyledText className="text-lg font-bold">{item.full_name}</StyledText>
-
-        {/* Username (smaller text) */}
         <StyledText className="text-sm text-gray-500">
           @{item.username}
         </StyledText>
       </StyledView>
 
-      {/* Message Icon */}
       <TouchableOpacity className="ml-auto">
         <MessageIcon userId={item.accountId} />
       </TouchableOpacity>
@@ -99,7 +95,6 @@ const FindFriend = () => {
         </TouchableOpacity>
       </StyledView>
 
-      {/* Register Your Team Button */}
       <StyledView className="flex items-center">
         <SecondaryButton title="Register Your Team" containerStyles="my-2" />
       </StyledView>
@@ -110,7 +105,6 @@ const FindFriend = () => {
         renderItem={renderItem}
       />
 
-      {/* User Info Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -118,22 +112,18 @@ const FindFriend = () => {
         onRequestClose={() => setModalVisible(false)}
       >
         <StyledView className="flex-1 justify-center items-center bg-gray-800 bg-opacity-75">
-          {/* Updated modal design */}
           <StyledView className="bg-white p-6 rounded-lg w-4/5">
-            {/* Increased width */}
-            {/* Close icon at the top right */}
             <TouchableOpacity
               className="absolute top-3 right-3"
               onPress={() => setModalVisible(false)}
             >
               <StyledText className="text-xl text-gray-600">✖</StyledText>
-              {/* Make sure this is wrapped in StyledText */}
             </TouchableOpacity>
-            {/* Avatar at the top */}
+
             <StyledView className="flex items-center mb-4">
               <Avatar url={selectedUser?.avatar} />
             </StyledView>
-            {/* User information */}
+
             {selectedUser && (
               <>
                 <StyledText className="text-xl font-bold text-center mb-2">
@@ -151,11 +141,8 @@ const FindFriend = () => {
                 <StyledText className="mt-2">
                   Introduction: {selectedUser.introduction}
                 </StyledText>
-
-                {/* Safely handle travel_preferences */}
                 <StyledText className="mt-2">
-                  Travel Preferences:
-                  {selectedUser.travel_preferences}
+                  Travel Preferences: {selectedUser.travel_preferences}
                 </StyledText>
               </>
             )}
