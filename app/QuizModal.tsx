@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, Modal, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, Button, Modal, StyleSheet, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
 import { Client, Databases } from 'appwrite'; // Appwrite SDK
 
 const QuizModal = ({ visible, onClose, apicontentId }) => {
@@ -10,27 +10,24 @@ const QuizModal = ({ visible, onClose, apicontentId }) => {
     if (visible) {
       const fetchQuizData = async () => {
         try {
-          // Appwrite 클라이언트 설정
           const client = new Client();
           client
             .setEndpoint('https://cloud.appwrite.io/v1') // Appwrite 엔드포인트 설정
             .setProject('66faafc9002ad8bed1f6'); // Appwrite 프로젝트 ID 설정
 
           const databases = new Databases(client);
-          // Appwrite 데이터베이스에서 퀴즈 데이터 가져오기
           const response = await databases.listDocuments('66fab2bc000944d087a5', '66fbe65b000af4eebfb7');
 
-          console.log('Fetched quiz data:', response); // 응답 데이터 로그 출력
+          console.log('Fetched quiz data:', response);
 
-          // contentId가 apicontentId와 일치하는 데이터 필터링
           const filteredQuizData = response.documents
             .filter(quiz => quiz.contentId === apicontentId)
             .map(quiz => ({
               ...quiz,
-              selectedOption: null, // 각 문제의 선택된 옵션 초기화
-              isSubmitted: false,   // 각 문제의 제출 상태 초기화
+              selectedOption: null,
+              isSubmitted: false,
             }));
-          console.log('Filtered quiz data:', filteredQuizData); // 필터링된 데이터 로그 출력
+          console.log('Filtered quiz data:', filteredQuizData);
 
           setQuizData(filteredQuizData);
           setLoading(false);
@@ -40,17 +37,16 @@ const QuizModal = ({ visible, onClose, apicontentId }) => {
         }
       };
 
-      fetchQuizData(); // 모달이 열릴 때 데이터를 가져옴
+      fetchQuizData();
     }
   }, [visible, apicontentId]);
 
-  // 정답 제출 처리 함수
   const handleSubmitAnswer = (index) => {
     const updatedQuizData = [...quizData];
     const selectedOption = updatedQuizData[index].selectedOption;
 
     if (selectedOption === updatedQuizData[index].answer) {
-      Alert.alert('That\'s correct! You get 4 points.');
+      Alert.alert('That\'s correct! You get 4 points.'); //정답일때. 여기에 실제로 점수추가 하기.
     } else {
       Alert.alert("That's wrong!", `The correct answer is \"${updatedQuizData[index].answer}\"`);
     }
@@ -59,7 +55,6 @@ const QuizModal = ({ visible, onClose, apicontentId }) => {
     setQuizData(updatedQuizData);
   };
 
-  // 옵션 선택 처리 함수
   const handleOptionSelect = (index, option) => {
     const updatedQuizData = [...quizData];
     updatedQuizData[index].selectedOption = option; // 선택된 옵션 저장
@@ -82,32 +77,47 @@ const QuizModal = ({ visible, onClose, apicontentId }) => {
               <Text style={styles.title}>Quiz</Text>
               {quizData.map((quiz, index) => (
                 <View key={index} style={styles.quizItem}>
-                  {/* 질문 표시 */}
                   <Text>{quiz.intro ? quiz.intro : null}</Text>
-                  <Text>{quiz.question ? quiz.question : 'No question available'}</Text>
+                  <Text style={{ marginVertical: 10, fontWeight: 'bold' }}>
+                  {quiz.question ? quiz.question : 'No question available'}
+                  </Text>
 
-                  {/* 옵션 버튼 표시 */}
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                   {quiz.options && quiz.options.map((option, idx) => (
-                    <Button
-                      key={idx}
-                      title={option}
-                      onPress={() => handleOptionSelect(index, option)} // 각 문제의 옵션 선택
-                      color={quiz.selectedOption === option ? 'green' : 'blue'} // 선택된 옵션 색상 변경
-                      disabled={quiz.isSubmitted} // 정답 제출 후 버튼 비활성화
-                    />
+                    <View key={idx} style={{ width: '48%', marginVertical: 5 }}>
+                    <TouchableOpacity
+                    onPress={() => handleOptionSelect(index, option)}
+                    disabled={quiz.isSubmitted}
+                    style={{
+                      backgroundColor: quiz.selectedOption === option ? '#14122D' : '#B7C9E6',
+                      padding: 10,
+                      borderRadius: 5,
+                    }}
+                  >
+                    <Text style={{ color: '#FFFFFF', textAlign: 'center' }}>
+                      {option}
+                    </Text>
+                  </TouchableOpacity>
+                    </View>
                   ))}
+                  </View>
 
-                  {/* 정답 제출 버튼 */}
-                  <Button
-                    title="정답제출"
-                    onPress={() => handleSubmitAnswer(index)} // 각 문제별로 제출
-                    disabled={quiz.isSubmitted || !quiz.selectedOption} // 정답 제출 후 비활성화, 선택이 없으면 비활성화
-                  />
+                  {/* "정답제출" 버튼 조건부 렌더링 */}
+                  {!quiz.isSubmitted && ( // 제출되지 않았을 경우에만 보여줌
+                    <Button
+                      title="Submit Answer"
+                      onPress={() => handleSubmitAnswer(index)} 
+                      color={quiz.selectedOption ? '#A3D2E3' : '#B7C9E6'} // 선택된 옵션이 있을 경우 진한 색상, 없을 경우 연한 색상
+                      disabled={quiz.isSubmitted || !quiz.selectedOption} 
+                    />
+                  )}
 
-                <Text>{quiz.ps ? quiz.ps : null}</Text>
+                  <Text>{quiz.ps ? quiz.ps : null}</Text>
                 </View>
               ))}
-              <Button title="Close" onPress={onClose} />
+              <TouchableOpacity style={styles.button} onPress={onClose}>
+                <Text style={styles.buttonText}>CLOSE</Text>
+              </TouchableOpacity>
             </>
           ) : (
             <Text>No quiz data available</Text>
@@ -123,7 +133,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#14122D', //'rgba(0, 0, 0, 0.5)' 이렇게하면 뒤에 배경이 보임(투명)
   },
   modalContent: {
     width: '80%',
@@ -138,6 +148,17 @@ const styles = StyleSheet.create({
   },
   quizItem: {
     marginVertical: 10,
+  },
+  button: {
+    backgroundColor: '#B7C9E6', // 원하는 색상으로 변경
+    padding: 10,
+    borderRadius: 5,
+    paddingVertical: 7
+  },
+  buttonText: {
+    color: '#14122D',
+    fontSize: 14, // 원하는 글자 크기로 변경
+    textAlign: 'center',
   },
 });
 

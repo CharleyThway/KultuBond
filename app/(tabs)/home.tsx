@@ -5,6 +5,8 @@ import useCurrentLocation from '../../components/location';
 import MarkerModal from '../MarkerModal';
 import QuizModal from '../QuizModal';
 
+
+
 // 공공데이터 API 호출 함수
 const fetchTourInfo = async (contentId) => {
   const serviceKey = 'a0HzUjdhfiDRG2V%2FjMIlAzgk1QEk6W4zt2B9TAEBe7a1FjXLS90DPxsidoetDbYSeljkTdKvXKSGeYw%2BPawgww%3D%3D';
@@ -47,7 +49,7 @@ const TourInfoWithMap = () => {
 
   useEffect(() => {
     // 필터링할 contentId 배열 (appwrite에서 가져온 것과 공공데이터 contentId 비교)
-    const contentIds = [264337, 561382, 897540, 264354, 264550, 264348, 264134, 264316, 1796840, 1748008, 264352, 2493015, 264465, 2482058, 2490739, 2590278, 264106, 1748004, 789696];
+    const contentIds = [264337, 561382, 897540, 264354, 264550, 264348, 264134, 264316, 1796840, 1748008, 264352, 2493015, 264465, 2490739, 2590278, 264106, 1748004, 789696];
 
     const fetchData = async () => {
       try {
@@ -107,19 +109,21 @@ const TourInfoWithMap = () => {
 
         <Marker
           coordinate={{
-            latitude: 35.236003,
-            longitude: 129.082499,
+            latitude: 35.169162,
+            longitude: 129.133800,
           }}
           pinColor="#2D63E2"
-          title="하이"
+          title="위치 예시"
           description="테스트"
           onPress={() => {
             setSelectedItem({
-            title: null,
-            overview: null,
+            title: "가까운 위치일 때 (퀴즈를 풀 수 있는지 확인)",
+            overview: "현재 위치에서 1km 이내라서 퀴즈 버튼을 누르면 퀴즈 창이 뜹니다!",
             firstImage: null, // 이미지가 없으면 null로 설정
             homepage: null, // 홈페이지가 없으면 null로 설정
             apicontentId: "test", // contentId를 test로 설정
+            mapx: 129.133800,
+            mapy: 35.169162
             });
             setModalVisible(true);
           }}
@@ -143,6 +147,7 @@ const TourInfoWithMap = () => {
               }}
               title={markerTitle}
               onPress={() => {
+                
                 // 선택한 마커의 정보 설정
                 setSelectedItem({
                   title: markerTitle,
@@ -150,6 +155,8 @@ const TourInfoWithMap = () => {
                   firstImage: item.firstImage,
                   homepage: homepage,
                   apicontentId: item.contentid, // contentId를 apicontentId로 설정
+                  mapx: parseFloat(item.mapx),  // 마커의 x 좌표 설정
+                  mapy: parseFloat(item.mapy)  // 마커의 y 좌표 설정 
                 });
                 setModalVisible(true);
               }}
@@ -176,6 +183,14 @@ const TourInfoWithMap = () => {
           setQuizVisible(true); // 퀴즈 모달 보이기
           setModalVisible(false); // 다른 모달 닫기
         }}
+        userLocation={{
+          latitude: location?.latitude,  // 사용자의 현재 위치 전달
+          longitude: location?.longitude, 
+        }}
+        markerLocation={{
+          latitude: parseFloat(selectedItem?.mapy),
+          longitude: parseFloat(selectedItem?.mapx),
+        }} // 선택된 마커의 위치 전달
       />
 
       {/* Quiz Modal 추가 */}
