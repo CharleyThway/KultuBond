@@ -62,13 +62,14 @@ const Welcome = () => {
             <PrimaryButton
               title="Join us"
               handlePress={() => router.push("/sign-up")}
-              containerStyles="mr-4"
+              containerStyles="w-[140px] mr-4"
             />
 
             {/* Sign-in button */}
             <SecondaryButton
               title="Sign in"
               handlePress={() => router.push("/sign-in")}
+              containerStyles="w-[140px] mr-4"
             />
           </View>
         </View>
