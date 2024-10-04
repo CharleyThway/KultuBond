@@ -103,14 +103,14 @@ const QuizModal = ({ visible, onClose, apicontentId }) => {
                   </View>
 
                   {/* "정답제출" 버튼 조건부 렌더링 */}
-                  {!quiz.isSubmitted && ( // 제출되지 않았을 경우에만 보여줌
+                  
                     <Button
                       title="Submit Answer"
                       onPress={() => handleSubmitAnswer(index)} 
                       color={quiz.selectedOption ? '#A3D2E3' : '#B7C9E6'} // 선택된 옵션이 있을 경우 진한 색상, 없을 경우 연한 색상
                       disabled={quiz.isSubmitted || !quiz.selectedOption} 
                     />
-                  )}
+                  
 
                   <Text>{quiz.ps ? quiz.ps : null}</Text>
                 </View>
