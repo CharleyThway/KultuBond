@@ -173,49 +173,128 @@ const ProfileInfo = () => {
       </View>
 
       <Modal visible={showModal} transparent={true} animationType="slide">
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-          <View style={{ backgroundColor: 'white', padding: 30, borderRadius: 8, width: '83.333333%' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>Edit Profile</Text>
-            <FormField
-              title="Username"
-              placeholder="Enter username"
-              value={formValues.username}
-              onChangeText={(text) => setFormValues({ ...formValues, username: text })}
-              otherStyles={{ marginBottom: 16 }}
-            />
-            <FormField
-              title="Country"
-              placeholder="Enter country"
-              value={formValues.country}
-              onChangeText={(text) => setFormValues({ ...formValues, country: text })}
-              otherStyles={{ marginBottom: 16 }}
-            />
-            <Text style={{ fontWeight: 'bold', marginBottom: 8 }}>MBTI:</Text>
-            <DropdownList
-              selectedValue={formValues.mbti}
-              setSelectedValue={(itemValue) => setFormValues({ ...formValues, mbti: itemValue })}
-            />
-            <FormField
-              title="Introduction"
-              placeholder="Enter introduction"
-              value={formValues.introduction}
-              onChangeText={(text) => setFormValues({ ...formValues, introduction: text })}
-              otherStyles={{ marginBottom: 16 }}
-              multiline={true}
-            />
-            <Text style={{ fontWeight: 'bold', marginBottom: 8 }}>Travel Preferences:</Text>
-            <TravelPreferences selectedPreferences={selectedPreferences} setSelectedPreferences={setSelectedPreferences} />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 24 }}>
-              <TouchableOpacity onPress={() => setShowModal(false)} style={{ backgroundColor: 'grey', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 4 }}>
-                <Text>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSaveInfo} style={{ backgroundColor: 'grey', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 4 }}>
-                <Text style={{ color: 'white' }}>Save</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
-      </Modal>
+  <ScrollView
+    contentContainerStyle={{
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    }}
+  >
+    <View
+      style={{
+        backgroundColor: 'white',
+        paddingVertical: 30,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: 'bold',
+          marginBottom: 20,
+        }}
+      >
+        Edit Profile
+      </Text>
+
+      <FormField
+        title="Username"
+        placeholder="Enter username"
+        value={formValues.username}
+        onChangeText={(text) => setFormValues({ ...formValues, username: text })}
+        otherStyles={{ marginBottom: 20 }}
+      />
+
+      <FormField
+        title="Country"
+        placeholder="Enter country"
+        value={formValues.country}
+        onChangeText={(text) => setFormValues({ ...formValues, country: text })}
+        otherStyles={{ marginBottom: 20 }}
+      />
+
+      <Text
+        style={{
+          fontWeight: 'bold',
+          marginBottom: 10,
+        }}
+      >
+      </Text>
+
+      <FormField
+      title="Introduction"
+      placeholder="Enter introduction"
+      value={formValues.introduction}
+      onChangeText={(text) => setFormValues({ ...formValues, introduction: text })}
+      otherStyles={{ 
+        marginTop: 10,
+        padding: 10,  // Add padding here
+        multiline: true,
+      }}
+      multiline={true} // If you want multiple lines
+    />
+
+
+      <DropdownList
+        selectedValue={formValues.mbti}
+        setSelectedValue={(itemValue) =>
+          setFormValues({ ...formValues, mbti: itemValue })
+        }
+      />
+
+
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: 'bold',
+          marginTop: 20,
+          marginBottom: 30,
+        }}
+      >
+        Travel Preferences:
+      </Text>
+      <TravelPreferences
+        selectedPreferences={selectedPreferences}
+        setSelectedPreferences={setSelectedPreferences}
+      />
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 30,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => setShowModal(false)}
+          style={{
+            backgroundColor: 'grey',
+            paddingHorizontal: 16,
+            paddingVertical: 10,
+            borderRadius: 6,
+          }}
+        >
+          <Text style={{ color: 'white', fontSize: 16 }}>Cancel</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleSaveInfo}
+          style={{
+            backgroundColor: 'grey',
+            paddingHorizontal: 16,
+            paddingVertical: 10,
+            borderRadius: 6,
+          }}
+        >
+          <Text style={{ color: 'white', fontSize: 16 }}>Save</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </ScrollView>
+</Modal>
+
 
       <Modal visible={showAvatarModal} transparent={true} animationType="slide">
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
