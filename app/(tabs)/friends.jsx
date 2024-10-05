@@ -171,6 +171,7 @@ const FindFriend = () => {
                 <StyledText className="mt-2">
                   Travel Preferences: {selectedUser.travel_preferences}
                 </StyledText>
+                
               </>
             )}
           </StyledView>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TextInput, Button, ActivityIndicator, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TextInput, Button, ActivityIndicator, Image, SafeAreaView, TouchableOpacity, RefreshControl } from 'react-native';
 import { getCurrentUser, getUserProfile, createPost, fetchPosts } from '../../lib/appwrite'; // Import createPost function
 import useAppwrite from '../../lib/useAppwrite';
 
@@ -9,6 +9,14 @@ const Chat = () => {
   const [content, setContent] = useState('');
   const [posts, setPosts] = useState([]);
   const { data: currentUser, loading: loadingUser } = useAppwrite(getCurrentUser);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadPosts();
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -102,6 +110,9 @@ const Chat = () => {
                 <Text>{item.content}</Text>
               </View>
             )}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
         </View>
       ) : (

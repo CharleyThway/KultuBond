@@ -9,7 +9,7 @@ import QuizModal from '../QuizModal';
 
 // 공공데이터 API 호출 함수
  const fetchTourInfo = async (contentId) => {
-  //const serviceKey = 'VrE85zJZ4klGbKdn7BH9aFEjM%2FF46CU4o0dGj%2FR6cxBdV9usTJ0xxF0NHRpqrn5u2vt8WfY15xdWkhKbBijmRA%3D%3D';
+  const serviceKey = 'VrE85zJZ4klGbKdn7BH9aFEjM%2FF46CU4o0dGj%2FR6cxBdV9usTJ0xxF0NHRpqrn5u2vt8WfY15xdWkhKbBijmRA%3D%3D';
   const url = `http://apis.data.go.kr/B551011/EngService1/detailCommon1?MobileOS=AND&MobileApp=AppTest&serviceKey=${serviceKey}&contentId=${contentId}&firstImageYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json&defaultYN=Y`;
 
   try {
