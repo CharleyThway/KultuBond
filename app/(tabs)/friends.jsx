@@ -89,7 +89,7 @@ const FindFriend = () => {
         <StyledText className="text-sm text-gray-500 mb-5">
           @{item.username}
         </StyledText>
-        <icons.chat width={30} height={30} resizeMode="contain" onPress={handleMessageClick}/>
+       {/* <icons.chat width={30} height={30} resizeMode="contain" onPress={handleMessageClick}/> */}
       </StyledView>
       </TouchableOpacity>
     
